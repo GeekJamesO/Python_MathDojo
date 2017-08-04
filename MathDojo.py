@@ -22,11 +22,14 @@
 # PART III
 #     Make any needed changes in MathDojo in order to support tuples of values in addition to lists and singletons.
 
+
 class MathDojo:
     def __init__(self):
         self.result = 0;
+        self.trace = True
 
     def add(self, *args):
+        # aTouple = type( () )
         for count, aNumber in enumerate(args):
             if (isinstance(aNumber, int)):
                 print( '  ADDInt:{0}. adding {1} to {2}'.format(count, self.result, aNumber))
@@ -40,6 +43,13 @@ class MathDojo:
                     tempMathDojo.add(anEntry) #RECURSION
                 print( '  AddLIST:{0}. adding {1} to {2}'.format(count, self.result, tempMathDojo.result))
                 self.result += tempMathDojo.result
+            elif (isinstance(aNumber, type( () ) )):
+                tempMathDojo = MathDojo()
+                print " foo " , aNumber
+                for aNumInTouple in aNumber:
+                    tempMathDojo.add(aNumInTouple) #RECURSION
+                print( '  AddTouple:{0}. adding {1} to {2}'.format(count, self.result, tempMathDojo.result))
+                self.result += tempMathDojo.result
             else:
                 print "this is of type", type(aNumber)
         return self
@@ -47,17 +57,24 @@ class MathDojo:
     def subtract(self, *args):
         for count, aNumber in enumerate(args):
             if (isinstance(aNumber, int)):
-                print( '  SUBInt:{0}. adding {1} to {2}'.format(count, self.result, aNumber))
+                print( '  SUBInt:{0}. subtracting {2} from {1}'.format(count, self.result, aNumber))
                 self.result -= aNumber;
             elif (isinstance(aNumber, float)):
-                print( '  SUBFlt:{0}. adding {1} to {2}'.format(count, self.result, aNumber))
+                print( '  SUBFlt:{0}. subtracting {2} from {1}'.format(count, self.result, aNumber))
                 self.result -= aNumber;
             elif (isinstance(aNumber, list)):
                 tempMathDojo = MathDojo()
                 for anEntry in aNumber :
                     tempMathDojo.subtract(anEntry) #RECURSION
-                print( '  SubLIST:{0}. adding {1} to {2}'.format(count, self.result, tempMathDojo.result))
+                print( '  SubLIST:{0}. subtracting {2} from {1}'.format(count, self.result, tempMathDojo.result))
                 self.result += tempMathDojo.result  #you add values here.. is the already negated values.
+            elif (isinstance(aNumber, type( () ) )):
+                tempMathDojo = MathDojo()
+                print " foo " , aNumber
+                for aNumInTouple in aNumber:
+                    tempMathDojo.add(aNumInTouple) #RECURSION
+                print( '  SubTouple:{0}. subtracting {2} from {1}'.format(count, self.result, tempMathDojo.result))
+                self.result += tempMathDojo.result
             else:
                 print "this is of type", type(aNumber)
         return self
@@ -68,5 +85,5 @@ print "result = ", answer
 answer = MathDojo().add(3,[1,5,[11,12]]).result
 print "result = ", answer
 
-answer = MathDojo().subtract(3,[1,5,[11,12]]).result
+answer = MathDojo().add(8).subtract(1,2).result
 print "result = ", answer
